@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free 7-minute External Attack-Surface Sample — PreCog Security</title>
+<meta name="description" content="Free 7-minute public-surface sample: subdomains, exposed services, TLS hygiene, leaked secrets. No access needed. Fixed quote only if useful.">
+<style>
+:root{--bg:#0b1020;--surf:#131c36;--border:#2a3a6b;--text:#e9eeff;--muted:#9aa6d6;--accent:#7c8eff;--accent2:#c49cff;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:grid;place-items:center;padding:1.5rem}
+.box{width:min(720px,100%);background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:1.5rem}
+h1{font-size:1.6rem;margin-bottom:.4rem}
+p{color:var(--muted);margin-bottom:.5rem}
+label{display:block;margin:.6rem 0 .3rem}
+input,textarea{width:100%;padding:.7rem;border-radius:8px;border:1px solid var(--border);background:#0b101b;color:var(--text)}
+button{margin-top:1rem;width:100%;padding:.8rem;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#080010;font-weight:700;font-size:1rem;cursor:pointer}
+.note{font-size:.8rem;color:var(--muted);margin-top:1rem}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+  <main class="box">
+    <h1>Free 7-Minute Attack-Surface Sample</h1>
+    <p>We only inspect public data. Pick one hostname, identify public subdomains/services/misconfigured TLS/leaked credentials that can be seen <em>from outside</em>.</p>
+    <p><strong>No access needed. No commitment. $0.</strong></p>
+    <form action="https://formsubmit.co/timlangeveldt@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="NEW: Free attack-surface sample request">
+      <input type="hidden" name="_next" value="https://tim777z.github.io/free-scan/thanks.html">
+      <input type="hidden" name="_captcha" value="false">
+      <label for="name">Your name</label>
+      <input id="name" name="name" required>
+      <label for="company">Company</label>
+      <input id="company" name="company" required>
+      <label for="email">Contact email</label>
+      <input id="email" name="email" type="email" required>
+      <label for="hostname">Domain / hostname to sample</label>
+      <input id="hostname" name="hostname" placeholder="example.com" required>
+      <label for="context">Any special notes / known scan windows</label>
+      <textarea id="context" name="context" rows="3"></textarea>
+      <button type="submit">Queue the sample</button>
+    </form>
+    <p class="note">Form submissions route directly to the operator mailbox (`timlangeveldt@gmail.com`). Nothing is scanned unless you specify a domain you own/are authorized against.</p>
+    <p class="note">Prefer email? Send one hostname in a single reply to timlangeveldt@gmail.com and the sample arrives within 24h.</p>
+    <p class="note">Live sites: <a href="https://tim777z.github.io/precog-services/">services</a> · <a href="https://tim777z.github.io/utopia/">Utopia</a> · BlueHound: <a href="https://precogsecurity.github.io/BlueHound/">precogsecurity.github.io/BlueHound/</a></p>
+  </main>
+</body>
+</html>
