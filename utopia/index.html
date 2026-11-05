@@ -5,69 +5,834 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Utopia — Cool Tech Dropship Megastore</title>
 <meta name="description" content="Utopia: cool tech and modern gadgets, sourced to order and delivered worldwide. Powered by AI-automation (PreCog Swarm).">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b1020;--surf:#131c36;--surf2:#1b2748;--border:#2a3a6b;--text:#e9eeff;--muted:#9aa6d6;--accent:#7c8eff;--accent2:#c49cff;}
+:root{
+  --bg:#05070f;
+  --bg-elev:#0b1021;
+  --surf:#0f1630;
+  --surf-2:#161f42;
+  --border:rgba(130,150,255,.16);
+  --border-strong:rgba(130,150,255,.32);
+  --text:#eef2ff;
+  --muted:#9aa6d6;
+  --soft:#c7d1ff;
+  --accent:#6ae4ff;
+  --accent-2:#b98cff;
+  --accent-3:#ff7ab8;
+  --success:#4ade80;
+  --warn:#fbbf24;
+  --radius:18px;
+  --radius-sm:12px;
+  --shadow:0 24px 60px rgba(0,0,0,.55);
+  --shadow-glow:0 0 40px rgba(106,228,255,.18);
+  --grad-hero:linear-gradient(135deg,#05070f 0%,#0c1230 45%,#1a1038 100%);
+  --grad-accent:linear-gradient(135deg,var(--accent),var(--accent-2));
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Inter",system-ui,-apple-system,sans-serif;
+  background:var(--bg);color:var(--text);line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
 a{color:var(--accent);text-decoration:none}
-header{padding:1.75rem 1rem;text-align:center;background:linear-gradient(120deg,#0b1020 0%,#151f45 60%,#1d1b45 100%)}
-header h1{font-size:2.2rem;font-weight:900;letter-spacing:-.02em}
-header p{color:var(--muted)}
-.nav{display:flex;gap:.5rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
-.nav span{background:var(--surf2);border:1px solid var(--border);border-radius:99px;padding:.3rem .9rem;font-size:.85rem}
-main{max-width:1200px;margin:1.5rem auto;padding:0 1rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.25rem}
-.card{background:var(--surf);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
-.card .art{height:140px;display:grid;place-items:center;font-size:3.25rem;background:linear-gradient(135deg,var(--surf2),#0a0e17)}
-.card .body{padding:1rem;flex:1;display:flex;flex-direction:column}
-.card h2{font-size:1.05rem;margin-bottom:.35rem}
-.card .desc{color:var(--muted);font-size:.86rem;flex:1;margin-bottom:.7rem}
-.card .price{font-weight:700;font-size:1.15rem;color:var(--accent2)}
-.btn{display:inline-block;margin-top:.7rem;align-self:flex-start;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#080010;font-weight:700;padding:.55rem `.95rem};border-radius:8px;font-size:.9rem}
-.cat{color:var(--muted);font-size:.78rem;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em}
-footer{text-align:center;color:var(--muted);font-size:.85rem;padding:2rem 1rem;border-top:1px solid var(--border);margin-top:2.5rem}
+img{max-width:100%;display:block}
+button,input{font:inherit}
+
+/* Ambient background */
+.bg-layer{position:fixed;inset:0;pointer-events:none;z-index:-2;overflow:hidden;background:var(--grad-hero);}
+.bg-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right,rgba(255,255,255,.03) 1px,transparent 1px),
+    linear-gradient(to bottom,rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse at 50% 40%,black 30%,transparent 75%);
+  animation:gridDrift 24s linear infinite;
+}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.55;mix-blend-mode:screen;animation:float 18s ease-in-out infinite;}
+.orb.one{width:520px;height:520px;background:#4f6bff;top:-120px;left:-120px;}
+.orb.two{width:460px;height:460px;background:#b98cff;bottom:-160px;right:-140px;animation-delay:-6s;}
+.orb.three{width:320px;height:320px;background:#6ae4ff;top:40%;left:55%;animation-delay:-12s;opacity:.35;}
+.noise{
+  position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Layout */
+.container{width:min(1240px,100%);margin-inline:auto;padding:0 20px;}
+section{padding:72px 0;position:relative;}
+.site-header{position:relative;padding-bottom:40px;}
+
+/* Nav */
+.navbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(5,7,15,.7);
+  backdrop-filter:blur(16px) saturate(140%);
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0;gap:16px;}
+.brand{display:flex;align-items:center;gap:12px;font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:1.2rem;letter-spacing:-.02em;color:var(--text);}
+.brand-mark{
+  width:36px;height:36px;border-radius:10px;background:var(--grad-accent);
+  display:grid;place-items:center;color:#05070f;font-weight:900;
+  box-shadow:0 0 24px rgba(106,228,255,.45);
+  position:relative;overflow:hidden;
+}
+.brand-mark::after{
+  content:"";position:absolute;inset:-40%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.6),transparent);
+  animation:sheen 4.5s linear infinite;
+}
+.nav-links{display:flex;gap:8px;list-style:none;align-items:center;}
+.nav-links a{color:var(--muted);font-size:.92rem;font-weight:500;padding:8px 12px;border-radius:10px;transition:color .2s,background .2s;}
+.nav-links a:hover{color:var(--text);background:rgba(255,255,255,.06);}
+.nav-cta{
+  background:var(--grad-accent);color:#05070f !important;font-weight:700 !important;
+  box-shadow:0 0 24px rgba(106,228,255,.35);
+}
+.nav-cta:hover{filter:brightness(1.1);transform:translateY(-1px);}
+@media (max-width:720px){.nav-links{display:none;}}
+
+/* Hero */
+.hero{padding:64px 0 40px;text-align:left;display:grid;gap:32px;grid-template-columns:1.15fr .85fr;align-items:center;}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;
+  background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--accent);
+  font-family:"Space Grotesk",sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  backdrop-filter:blur(8px);
+}
+.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--success);box-shadow:0 0 10px var(--success);animation:pulse 1.6s infinite;}
+.hero h1{
+  font-family:"Space Grotesk",sans-serif;font-size:clamp(2.4rem,5.6vw,4.6rem);
+  line-height:1.02;letter-spacing:-.03em;font-weight:700;margin:16px 0 18px;
+  background:linear-gradient(180deg,#ffffff 0%,#c7d1ff 55%,#9aa6d6 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero h1 .grad{background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero p{color:var(--muted);font-size:1.12rem;max-width:56ch;}
+.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:24px;}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 24px;border-radius:12px;font-weight:700;font-size:.95rem;transition:transform .25s,box-shadow .25s,filter .25s;border:1px solid transparent;cursor:pointer;}
+.btn-primary{background:var(--grad-accent);color:#05070f;box-shadow:0 0 30px rgba(106,228,255,.35);}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 46px rgba(106,228,255,.55);}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--text);border-color:var(--border);backdrop-filter:blur(8px);}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:rgba(106,228,255,.08);}
+.hero-card{
+  background:linear-gradient(160deg,rgba(15,22,48,.85),rgba(10,14,32,.6));
+  border:1px solid var(--border);border-radius:var(--radius);padding:28px;
+  box-shadow:var(--shadow);backdrop-filter:blur(18px);position:relative;overflow:hidden;
+}
+.hero-card h3{font-family:"Space Grotesk",sans-serif;font-size:1.2rem;margin-bottom:6px;}
+.hero-card .row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:.95rem;}
+.hero-card .row:last-child{border-bottom:none;}
+.hero-card .row .k{color:var(--muted);}
+.hero-card .row .v{font-weight:600;}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(106,228,255,.1);border:1px solid rgba(106,228,255,.25);color:var(--accent);font-size:.78rem;font-weight:600;}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:26px;}
+.stat{padding:16px;border-radius:var(--radius-sm);background:rgba(255,255,255,.03);border:1px solid var(--border);}
+.stat .n{font-family:"Space Grotesk",sans-serif;font-size:1.6rem;font-weight:700;background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.stat .l{color:var(--muted);font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+/* Section headings */
+.section-head{text-align:center;max-width:720px;margin:0 auto 44px;}
+.section-tag{color:var(--accent);font-size:.78rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;display:block;margin-bottom:12px;}
+.section-title{font-family:"Space Grotesk",sans-serif;font-size:clamp(1.9rem,3.6vw,2.8rem);letter-spacing:-.02em;font-weight:700;}
+.section-desc{color:var(--muted);margin-top:14px;font-size:1.05rem;}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:26px;padding:14px 18px;border-radius:var(--radius-sm);background:rgba(255,255,255,.03);border:1px solid var(--border);backdrop-filter:blur(8px);}
+.search-box{display:flex;align-items:center;gap:10px;flex:1;min-width:240px;}
+.search-box svg{color:var(--muted);}
+.search-box input{background:transparent;border:none;outline:none;color:var(--text);width:100%;font-size:.95rem;}
+.search-box input::placeholder{color:var(--muted);}
+.result-count{color:var(--muted);font-size:.85rem;font-family:"Space Grotesk",sans-serif;}
+
+/* Products */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:22px;}
+.card{
+  background:linear-gradient(180deg,rgba(15,22,48,.9),rgba(9,13,28,.95));
+  border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;
+  display:flex;flex-direction:column;position:relative;
+  transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .3s,box-shadow .35s;
+  isolation:isolate;
+}
+.card:hover{transform:translateY(-8px);border-color:var(--border-strong);box-shadow:var(--shadow-glow),var(--shadow);}
+.card::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:linear-gradient(135deg,transparent,rgba(106,228,255,.35),transparent);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.card:hover::before{opacity:1;}
+.card .art{
+  height:150px;display:grid;place-items:center;font-size:3.4rem;
+  background:linear-gradient(135deg,var(--surf-2),#0a0e1a);
+  position:relative;overflow:hidden;
+}
+.card .art::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 30% 30%,rgba(106,228,255,.18),transparent 60%);
+  opacity:0;transition:opacity .3s;
+}
+.card:hover .art::after{opacity:1;}
+.card-body{padding:20px;display:flex;flex-direction:column;gap:10px;flex:1;}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.cat{
+  color:var(--accent);font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  font-family:"Space Grotesk",sans-serif;
+}
+.tag-ship{color:var(--success);font-size:.72rem;font-weight:600;display:inline-flex;align-items:center;gap:4px;}
+.tag-ship::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--success);box-shadow:0 0 8px var(--success);}
+.card h2{font-family:"Space Grotesk",sans-serif;font-size:1.18rem;font-weight:600;line-height:1.25;}
+.card .desc{color:var(--muted);font-size:.9rem;}
+.specs{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px;}
+.spec{font-size:.74rem;color:var(--soft);padding:4px 9px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--border);}
+.price-row{display:flex;align-items:baseline;gap:10px;margin-top:6px;flex-wrap:wrap;}
+.price{font-family:"Space Grotesk",sans-serif;font-size:1.5rem;font-weight:700;background:var(--grad-accent);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.price-old{color:var(--muted);font-size:.85rem;text-decoration:line-through;}
+.bulk{color:var(--muted);font-size:.8rem;}
+.card-actions{display:flex;gap:10px;margin-top:auto;padding-top:14px;}
+.btn-order{
+  flex:1;text-align:center;background:var(--grad-accent);color:#05070f;font-weight:700;
+  padding:12px 16px;border-radius:12px;font-size:.92rem;transition:filter .2s,transform .2s;
+  box-shadow:0 0 22px rgba(106,228,255,.28);
+}
+.btn-order:hover{filter:brightness(1.12);transform:translateY(-2px);}
+.btn-details{
+  background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--border);
+  padding:12px 14px;border-radius:12px;font-size:.9rem;font-weight:600;transition:all .2s;
+}
+.btn-details:hover{border-color:var(--accent);color:var(--accent);background:rgba(106,228,255,.06);}
+details{margin-top:4px;}
+details summary{list-style:none;cursor:pointer;color:var(--muted);font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:color .2s;}
+details summary::-webkit-details-marker{display:none;}
+details summary:hover{color:var(--accent);}
+details[open] summary{color:var(--accent);}
+.details-body{margin-top:10px;padding:14px;border-radius:12px;background:rgba(0,0,0,.3);border:1px solid var(--border);color:var(--soft);font-size:.86rem;display:grid;gap:8px;}
+.details-body ul{padding-left:18px;display:grid;gap:4px;color:var(--muted);}
+.details-body strong{color:var(--text);}
+
+/* How it works */
+.timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:30px;}
+.step{padding:24px;border-radius:var(--radius);background:linear-gradient(180deg,rgba(15,22,48,.8),rgba(9,13,28,.9));border:1px solid var(--border);position:relative;transition:transform .3s,border-color .3s;}
+.step:hover{transform:translateY(-6px);border-color:var(--border-strong);}
+.step .n{position:absolute;top:18px;right:18px;font-family:"Space Grotesk",sans-serif;font-size:2rem;font-weight:800;color:rgba(255,255,255,.06);}
+.step h4{font-family:"Space Grotesk",sans-serif;font-size:1.1rem;margin:6px 0 8px;}
+.step p{color:var(--muted);font-size:.9rem;}
+.step-icon{width:46px;height:46px;border-radius:12px;background:var(--grad-accent);display:grid;place-items:center;font-size:1.3rem;color:#05070f;margin-bottom:10px;box-shadow:0 0 22px rgba(106,228,255,.3);}
+
+/* Footer */
+footer{border-top:1px solid var(--border);padding:48px 0 24px;background:rgba(0,0,0,.35);margin-top:60px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:32px;}
+.footer-brand p{color:var(--muted);margin-top:12px;max-width:44ch;}
+.footer-col h4{font-family:"Space Grotesk",sans-serif;font-size:.95rem;margin-bottom:12px;color:var(--text);}
+.footer-col ul{list-style:none;display:grid;gap:8px;}
+.footer-col a{color:var(--muted);font-size:.9rem;transition:color .2s;}
+.footer-col a:hover{color:var(--accent);}
+.footer-bottom{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;margin-top:32px;padding-top:18px;border-top:1px solid var(--border);color:var(--muted);font-size:.82rem;}
+.fallback{display:none;}
+
+/* Reveal on scroll */
+.reveal{opacity:0;transform:translateY(28px) scale(.985);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.reveal.is-in{opacity:1;transform:none;}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+  .reveal{opacity:1;transform:none;}
+  .bg-layer,.navbar{animation:none;}
+}
+
+@keyframes float{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-40px) scale(1.06);}}
+@keyframes gridDrift{0%{transform:translate(0,0);}100%{transform:translate(72px,72px);}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.35);}}
+@keyframes sheen{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;}
+  section{padding:56px 0;}
+}
+@media (max-width:600px){
+  .stats{grid-template-columns:1fr 1fr;}
+}
 </style>
 </head>
 <body>
+<div class="bg-layer" aria-hidden="true">
+  <div class="bg-grid"></div>
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+  <div class="orb three"></div>
+  <div class="noise"></div>
+</div>
 
-<header>
-  <h1>Utopia <span style="color:var(--accent2)">·</span> Cool Tech Megastore</h1>
-  <p>Sourced-to-order tech and gadgets. Email your list, get a PayPal invoice in 24h. Free worldwide shipping over $60.</p>
-  <div class="nav">
-    <span>🎧 Audio</span><span>⌨️ Keyboards</span><span>💡 Lighting</span>
-    <span>🔌 Charging</span><span> wearables</span><span>Smart Home</span>
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="#top" class="brand">
+      <div class="brand-mark">U</div>
+      Utopia
+    </a>
+    <ul class="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#products" class="nav-cta">Shop now</a></li>
+    </ul>
   </div>
-</header>
+</nav>
 
-<main>
-  <section class="grid">
-    <div class="card"><div class="art">🎧</div><div class="body"><div class="cat">Audio</div><h2>Hi-Res Wireless Earbuds</h2><p class="desc">Premium noise-cancelling buds with LDAC. 30h total battery. 6 colours. Popular bestseller.</p><div class="price">$79 <span style="color:var(--muted);font-size:.8rem">· 2 for $147</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/79USD?note=Utopia+order+Hi-Res+Wireless+Earbuds+x1">Order</a></div></div>
-    <div class="card"><div class="art">⌨️</div><div class="body"><div class="cat">Keyboards</div><h2>87% Hot-Swap Mechanical</h2><p class="desc">Gasket-mount layout with VIA support. Tri-mode (USB/BT/2.4GHz). Hot-swap keyswitches, RGB.</p><div class="price">$99 <span style="color:var(--muted);font-size:.8rem">· 2 for $189</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/99USD?note=Utopia+order+87+mechanical+keyboard+x1">Order</a></div></div>
-    <div class="card"><div class="art">💡</div><div class="body"><div class="cat">Lighting</div><h2>Monster LED Monitor Bar</h2><p class="desc">CRI 95, asymmetrical anti-glare, auto-dimming. No screen glare, desk glow and Night Mode.</p><div class="price">$49 <span style="color:var(--muted);font-size:.8rem">· 2 for $89</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/49USD?note=Utopia+order+Monster+LED+Monitor+Bar+x1">Order</a></div></div>
-    <div class="card"><div class="art">🔌</div><div class="body"><div class="cat">Charging</div><h2>120W GaN Charging Brick</h2><p class="desc">Three ports, foldable prongs, charges laptops + phones simultaneously. Travel-ready.</p><div class="price">$59 <span style="color:var(--muted);font-size:.8rem">· 2 for $109</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/59USD?note=Utopia+order+120W+GaN+Charging+Brick+x1">Order</a></div></div>
-    <div class="card"><div class="art">🛒</div><div class="body"><div class="cat">Smart Home</div><h2>Smart Plug Multi-Pack</h2><p class="desc">Matter-compatible, 4-pack, no hub. Works in iOS Home, Google Home and Alexa. Realtime energy monitor.</p><div class="price">$34 <span style="color:var(--muted);font-size:.8rem">· 3 for $89</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/34USD?note=Utopia+order+Smart+Plug+Multi-Pack+x1">Order</a></div></div>
-    <div class="card"><div class="art">📱</div><div class="body"><div class="cat">Accessories</div><h2>Qi2 Magnetic Phone Stand</h2><p class="desc">MagSafe-ready, 15W fast charge, angle adjustable. On-desk or wall Mount. Steel core.</p><div class="price">$45 <span style="color:var(--muted);font-size:.8rem">· 2 for $85</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/45USD?note=Utopia+order+Qi2+Magnetic+Phone+Stand+x1">Order</a></div></div>
-    <div class="card"><div class="art">🖱️</div><div class="body"><div class="cat">Productivity</div><h2>Vertical Ergonomic Mouse</h2><p class="desc">6-button programmable, rechargeable, silent click. Designed for long working hours.</p><div class="price">$44 <span style="color:var(--muted);font-size:.8rem">· 2 for $83</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/44USD?note=Utopia+order+Vertical+Ergonomic+Mouse+x1">Order</a></div></div>
-    <div class="card"><div class="art"> speakers</div><div class="body"><div class="cat">Audio</div><h2>Portable Game-Style Speaker</h2><p class="desc">IPX7 waterproof, 24h battery, passive bass radiator, RGB adjustable. Backpack loudspeaker.</p><div class="price">$54 <span style="color:var(--muted);font-size:.8rem">· 2 for $99</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/54USD?note=Utopia+order+Portable+Game-Style+Speaker+x1">Order</a></div></div>
-    <div class="card"><div class="art">🎧</div><div class="body"><div class="cat">Accessories</div><h2>Desk Mat XL + RGB Strip</h2><p class="desc">900x400mm micro-weave mat plus connector RGB strip and stackable felt. Cable routing deal.</p><div class="price">$39 <span style="color:var(--muted);font-size:.8rem">· 2 for $75</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/39USD?note=Utopia+order+Desk+Mat+XL+RGB+x1">Order</a></div></div>
-    <div class="card"><div class="art">💻</div><div class="body"><div class="cat">Photography</div><h2>4K Webcam with Ring Light</h2><p class="desc">Autofocus 8MP sensor, stereo mic, built-in ring, dual-plug follow view. Streams 4k30 / 1080p60.</p><div class="price">$79 <span style="color:var(--muted);font-size:.8rem">· 2 for $147</span></div><a class="btn" href="https://www.paypal.com/paypalme/PrecogSecurity/79USD?note=Utopia+order+4K+Webcam+Ring+Light+x1">Order</a></div></div>
+<main id="top">
+  <!-- Hero -->
+  <section class="site-header">
+    <div class="container hero">
+      <div class="reveal">
+        <span class="eyebrow"><span class="dot"></span>Live swarm storefront</span>
+        <h1>Cool tech,<br>sourced to order,<br><span class="grad">paid in 60&nbsp;seconds.</span></h1>
+        <p>Utopia is the PreCog dropship megastore for everyday tech — earbuds, mechanical keyboards, monitor bars, fast chargers and desk gear. Click a product, send us your list, and we reply with a PayPal invoice within 24 hours.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#products">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Explore products
+          </a>
+          <a class="btn btn-ghost" href="#how">How ordering works</a>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="n">10</div><div class="l">Curated items</div></div>
+          <div class="stat"><div class="n">24h</div><div class="l">Invoice turnaround</div></div>
+          <div class="stat"><div class="n">Free</div><div class="l">Ship over $60</div></div>
+        </div>
+      </div>
+      <div class="hero-card reveal">
+        <h3>Order summary</h3>
+        <div class="row"><span class="k">Shipping</span><span class="v">Worldwide · free over $60</span></div>
+        <div class="row"><span class="k">Payment</span><span class="v">PayPal invoice (email)</span></div>
+        <div class="row"><span class="k">Fulfilment</span><span class="v">3–7 days after payment</span></div>
+        <div class="row"><span class="k">Margin</span><span class="v">30–40% transparent</span></div>
+        <div class="row"><span class="k">Support</span><span class="v">timlangeveldt@gmail.com</span></div>
+        <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
+          <span class="chip">🎧 Audio</span><span class="chip">⌨️ Keyboards</span><span class="chip">💡 Lighting</span><span class="chip">🔌 Charging</span>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section style="background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:1.5rem 1.5rem;margin-top:2.5rem;">
-    <h2>How Utopia Works</h2>
-    <p style="color:var(--muted)">Every item ships made-to-order. We source the product, pay supplier, and add 30–40% margin. Your order triggers a fast procurement run.</p>
-    <ol style="color:var(--muted);margin:0.5rem 0 0 1.4rem">
-      <li>Click any order button and send us product + quantity + ship-to + size.</li>
-      <li>We send a PayPal invoice within 24h using <strong style="color:var(--text)">timlangeveldt@gmail.com</strong>.</li>
-      <li>On payment we source, QC and dispatch within 3–7 days (varies by item).</li>
-    </ol>
+  <!-- Products -->
+  <section id="products">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Catalogue</span>
+        <h2 class="section-title">Curated tech & desk gear</h2>
+        <p class="section-desc">Sourced to order from vetted suppliers. Every price is final, including shipping; quantity-breaks are shown on each card.</p>
+      </div>
+
+      <div class="toolbar reveal">
+        <div class="search-box">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="productSearch" type="search" placeholder="Filter products, specs or category…" aria-label="Filter products">
+        </div>
+        <div class="result-count" id="resultCount">10 products</div>
+      </div>
+
+      <div class="grid" id="productGrid">
+
+        <!-- 1 -->
+        <article class="card reveal" data-name="hi-res wireless earbuds audio noise-cancelling ldac">
+          <div class="art">🎧</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Audio</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>Hi-Res Wireless Earbuds</h2>
+            <p class="desc">Premium noise-cancelling buds with LDAC codec, transparent mode and 30 hours total battery. Six colourways available.</p>
+            <div class="specs">
+              <span class="spec">Bluetooth 5.3</span><span class="spec">LDAC</span><span class="spec">ANC 45dB</span><span class="spec">30h battery</span><span class="spec">IPX5</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$79</span>
+              <span class="bulk">· 2 for $147 (save $11)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/79USD?note=Utopia+order+Hi-Res+Wireless+Earbuds+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Driver:</strong> 10mm dynamic, Hi-Res certified</li>
+                    <li><strong>Latency:</strong> 60ms game mode</li>
+                    <li><strong>Colours:</strong> Midnight, Ivory, Mint, Cobalt, Coral, Graphite</li>
+                    <li><strong>Includes:</strong> USB-C charge case, 3 tip sizes, cable</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="card reveal" data-name="87 hot-swap mechanical keyboard gasket tri-mode rgb">
+          <div class="art">⌨️</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Keyboards</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>87% Hot-Swap Mechanical</h2>
+            <p class="desc">Gasket-mount 87-key layout with VIA support. Tri-mode connectivity, hot-swappable switches and per-key RGB.</p>
+            <div class="specs">
+              <span class="spec">Gasket mount</span><span class="spec">VIA</span><span class="spec">Tri-mode</span><span class="spec">Hot-swap</span><span class="spec">PBT caps</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$99</span>
+              <span class="bulk">· 2 for $189 (save $9)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/99USD?note=Utopia+order+87+mechanical+keyboard+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Switches:</strong> Linear Red pre-lubed (hot-swap, 5-pin)</li>
+                    <li><strong>Battery:</strong> 4000mAh · up to 200h with RGB off</li>
+                    <li><strong>Keycaps:</strong> Cherry profile PBT double-shot</li>
+                    <li><strong>Included:</strong> Keycap puller, switch puller, coiled cable</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="card reveal" data-name="monster led monitor bar lighting asymmetrical anti glare">
+          <div class="art">💡</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Lighting</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>Monster LED Monitor Bar</h2>
+            <p class="desc">CRI 95 asymmetric light bar with auto-dimming sensor. Lights the desk, not the screen.</p>
+            <div class="specs">
+              <span class="spec">CRI 95</span><span class="spec">Auto-dim</span><span class="spec">USB-C</span><span class="spec">Anti-glare</span><span class="spec">Touch dial</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$49</span>
+              <span class="bulk">· 2 for $89 (save $9)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/49USD?note=Utopia+order+Monster+LED+Monitor+Bar+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Length:</strong> Fits 15"–34" monitors, clamp mount</li>
+                    <li><strong>Colour temp:</strong> 2700K–6500K adjustable</li>
+                    <li><strong>Brightness:</strong> 3-step + auto sensor</li>
+                    <li><strong>Power:</strong> 5W USB-C, adapter included</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="card reveal" data-name="120w gan charging brick charger usb-c travel">
+          <div class="art">🔌</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Charging</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>120W GaN Charging Brick</h2>
+            <p class="desc">Three-port GaN brick with foldable prongs. Charges a laptop and two phones at once.</p>
+            <div class="specs">
+              <span class="spec">120W max</span><span class="spec">2× USB-C</span><span class="spec">1× USB-A</span><span class="spec">PD 3.1</span><span class="spec">Foldable</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$59</span>
+              <span class="bulk">· 2 for $109 (save $9)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/59USD?note=Utopia+order+120W+GaN+Charging+Brick+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Ports:</strong> 100W + 20W USB-C, 18W USB-A</li>
+                    <li><strong>Protocol:</strong> PD3.1, PPS, QC4+, AFC</li>
+                    <li><strong>Size:</strong> 6.8×4.2×3.1cm · 198g</li>
+                    <li><strong>Safety:</strong> Over-voltage, over-current, thermal protection</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="card reveal" data-name="smart plug multi pack matter alexa google home energy monitor">
+          <div class="art">🛒</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Smart Home</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>Smart Plug Multi-Pack</h2>
+            <p class="desc">Matter-compatible 4-pack, no hub required. Works in Apple Home, Google Home and Alexa, with realtime energy monitoring.</p>
+            <div class="specs">
+              <span class="spec">Matter</span><span class="spec">4-pack</span><span class="spec">No hub</span><span class="spec">Energy monitor</span><span class="spec">2.4GHz</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$34</span>
+              <span class="bulk">· 3 for $89 (save $13)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/34USD?note=Utopia+order+Smart+Plug+Multi-Pack+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Load:</strong> 15A / 1800W max per plug</li>
+                    <li><strong>Rating:</strong> UL/CE certified, flame-retardant shell</li>
+                    <li><strong>Features:</strong> Schedules, timers, voice control, energy history</li>
+                    <li><strong>In box:</strong> 4 smart plugs + quick-start guide</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="card reveal" data-name="qi2 magnetic phone stand magsafe wireless charger accessories">
+          <div class="art">📱</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Accessories</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>Qi2 Magnetic Phone Stand</h2>
+            <p class="desc">MagSafe-ready stand with 15W fast wireless charge, adjustable viewing angle and a steel core.</p>
+            <div class="specs">
+              <span class="spec">Qi2</span><span class="spec">15W</span><span class="spec">MagSafe</span><span class="spec">Adjustable</span><span class="spec">Alloy</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$45</span>
+              <span class="bulk">· 2 for $85 (save $5)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/45USD?note=Utopia+order+Qi2+Magnetic+Phone+Stand+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Compatibility:</strong> iPhone 12+ and MagSafe cases</li>
+                    <li><strong>Angle:</strong> 0–65° tilt, 360° base rotation</li>
+                    <li><strong>Input:</strong> USB-C, 20W adapter recommended</li>
+                    <li><strong>Weight:</strong> 280g weighted base</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="card reveal" data-name="vertical ergonomic mouse productivity silent rechargeable">
+          <div class="art">🖱️</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Productivity</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>Vertical Ergonomic Mouse</h2>
+            <p class="desc">Six-button programmable vertical mouse with rechargeable battery and silent clicks. Built for long sessions.</p>
+            <div class="specs">
+              <span class="spec">Vertical grip</span><span class="spec">6 buttons</span><span class="spec">Rechargeable</span><span class="spec">Silent click</span><span class="spec">2.4GHz + BT</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$44</span>
+              <span class="bulk">· 2 for $83 (save $5)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/44USD?note=Utopia+order+Vertical+Ergonomic+Mouse+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>DPI:</strong> 800 / 1200 / 1600 / 2400 / 3200</li>
+                    <li><strong>Battery:</strong> 500mAh · up to 90 days</li>
+                    <li><strong>Weight:</strong> 112g</li>
+                    <li><strong>Buttons:</strong> Forward, back, DPI, scroll, left, right</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8 -->
+        <article class="card reveal" data-name="portable game style speaker audio ipx7 waterproof rgb">
+          <div class="art">🔊</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Audio</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>Portable Game-Style Speaker</h2>
+            <p class="desc">IPX7 waterproof speaker with 24-hour battery, passive bass radiator and adjustable RGB. Backpack-loud.</p>
+            <div class="specs">
+              <span class="spec">IPX7</span><span class="spec">24h battery</span><span class="spec">Bluetooth 5.3</span><span class="spec">RGB</span><span class="spec">TWS stereo</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$54</span>
+              <span class="bulk">· 2 for $99 (save $9)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/54USD?note=Utopia+order+Portable+Game-Style+Speaker+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Power:</strong> 20W total (2×10W drivers)</li>
+                    <li><strong>Range:</strong> Up to 20m, 33ft</li>
+                    <li><strong>Modes:</strong> Rhythm light, static colour, light off</li>
+                    <li><strong>Charge:</strong> USB-C, full in ~3h</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9 -->
+        <article class="card reveal" data-name="desk mat xl rgb strip accessories micro weave">
+          <div class="art">🧩</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Accessories</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>Desk Mat XL + RGB Strip</h2>
+            <p class="desc">900×400mm micro-weave mat bundled with a detachable RGB edge strip and routed cable channel.</p>
+            <div class="specs">
+              <span class="spec">900×400mm</span><span class="spec">Micro-weave</span><span class="spec">RGB strip</span><span class="spec">Cable channel</span><span class="spec">Stitched edge</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$39</span>
+              <span class="bulk">· 2 for $75 (save $3)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/39USD?note=Utopia+order+Desk+Mat+XL+RGB+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>Thickness:</strong> 4mm, non-slip rubber base</li>
+                    <li><strong>RGB:</strong> 16.8M colours, 10 effects via controller</li>
+                    <li><strong>Surface:</strong> Speed + control hybrid texture</li>
+                    <li><strong>Care:</strong> Wipe clean, roll-safe for travel</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+        <!-- 10 -->
+        <article class="card reveal" data-name="4k webcam ring light photography autofocus stereo mic">
+          <div class="art">💻</div>
+          <div class="card-body">
+            <div class="card-top">
+              <span class="cat">Photography</span>
+              <span class="tag-ship">In stock · ships fast</span>
+            </div>
+            <h2>4K Webcam with Ring Light</h2>
+            <p class="desc">Autofocus 8MP sensor with built-in ring light and stereo mic. Streams 4K/30 or 1080p/60.</p>
+            <div class="specs">
+              <span class="spec">4K 30fps</span><span class="spec">1080p 60fps</span><span class="spec">Autofocus</span><span class="spec">Ring light</span><span class="spec">Stereo mic</span>
+            </div>
+            <div class="price-row">
+              <span class="price">$79</span>
+              <span class="bulk">· 2 for $147 (save $11)</span>
+            </div>
+            <div class="card-actions">
+              <a class="btn-order" href="https://www.paypal.com/paypalme/PrecogSecurity/79USD?note=Utopia+order+4K+Webcam+Ring+Light+x1">Order now</a>
+              <details>
+                <summary>Specs</summary>
+                <div class="details-body">
+                  <ul>
+                    <li><strong>FOV:</strong> 84° / 78° / 65° adjustable</li>
+                    <li><strong>Mount:</strong> Universal clip + tripod thread</li>
+                    <li><strong>Light:</strong> 3-level warm/cool/neutral ring</li>
+                    <li><strong>Connection:</strong> USB 2.0, plug-and-play</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-tag">Ordering</span>
+        <h2 class="section-title">How Utopia Works</h2>
+        <p class="section-desc">Sourced-to-order, transparent margin, fast invoice. No cart, no upsell — just the item you want.</p>
+      </div>
+      <div class="timeline">
+        <div class="step reveal">
+          <div class="n">01</div>
+          <div class="step-icon">🛒</div>
+          <h4>Pick &amp; order</h4>
+          <p>Click any “Order now” button. It opens a PayPal pay link for that exact product and quantity.</p>
+        </div>
+        <div class="step reveal">
+          <div class="n">02</div>
+          <div class="step-icon">✉️</div>
+          <h4>Invoice within 24h</h4>
+          <p>We email a PayPal invoice to confirm quantity, shipping address and any variants before sourcing.</p>
+        </div>
+        <div class="step reveal">
+          <div class="n">03</div>
+          <div class="step-icon">📦</div>
+          <h4>Sourced &amp; QC’d</h4>
+          <p>After payment we source from our supplier, quality-check and dispatch within 3–7 days.</p>
+        </div>
+        <div class="step reveal">
+          <div class="n">04</div>
+          <div class="step-icon">🌍</div>
+          <h4>Delivered worldwide</h4>
+          <p>Tracking is shared by email. Free shipping on orders over $60, anywhere in the world.</p>
+        </div>
+      </div>
+
+      <div class="hero-card reveal" style="max-width:720px;margin:36px auto 0;">
+        <h3>Direct contact</h3>
+        <div class="row"><span class="k">Email</span><span class="v"><a href="mailto:timlangeveldt@gmail.com">timlangeveldt@gmail.com</a></span></div>
+        <div class="row"><span class="k">Payments</span><span class="v">PayPal invoice · Crypto/wallet on request</span></div>
+        <div class="row"><span class="k">Response</span><span class="v">Within 24 hours, 7 days a week</span></div>
+      </div>
+    </div>
   </section>
 </main>
 
-<footer>
-  <p><strong>Utopia Megastore</strong> · part of the PreCog swarm revenue program.</p>
-  <p>Orders: <strong>timlangeveldt@gmail.com</strong> · Crypto/wallet available if local rail requested.</p>
-  <p>Original editorial copy only. Products are sourced from public Alibaba/AliExpress-style suppliers after a request is received.</p>
+<footer id="contact">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand"><div class="brand-mark">U</div>Utopia</a>
+        <p>Utopia Megastore — part of the PreCog swarm revenue program. Cool tech and desk gear, sourced to order and shipped worldwide with a transparent 30–40% margin.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Catalogue</h4>
+        <ul>
+          <li><a href="#products">All products</a></li>
+          <li><a href="#products">Audio &amp; speakers</a></li>
+          <li><a href="#products">Keyboards &amp; mice</a></li>
+          <li><a href="#products">Lighting &amp; charging</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:timlangeveldt@gmail.com">timlangeveldt@gmail.com</a></li>
+          <li><a href="tel:+263774917252">+263 77 491 7252</a></li>
+          <li><a href="https://www.paypal.com/paypalme/PrecogSecurity" target="_blank" rel="noopener">PayPal profile</a></li>
+          <li><a href="#how">Ordering info</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Utopia Megastore · All rights reserved.</div>
+      <div>Orders are sourced from public Alibaba/AliExpress-style suppliers after a request is received.</div>
+    </div>
+  </div>
 </footer>
+
+<script>
+(function(){
+  "use strict";
+  // Reduced-motion aware
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll(".reveal");
+  if (!reduce && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-in");
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    revealEls.forEach((el) => io.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add("is-in"));
+  }
+
+  // Product search / filter
+  const search = document.getElementById("productSearch");
+  const cards = Array.from(document.querySelectorAll("#productGrid .card"));
+  const countEl = document.getElementById("resultCount");
+  function filter(){
+    const q = (search.value || "").toLowerCase().trim();
+    let shown = 0;
+    cards.forEach((c) => {
+      const text = (c.getAttribute("data-name") + " " + c.textContent).toLowerCase();
+      const match = q === "" || text.includes(q);
+      c.style.display = match ? "" : "none";
+      if (match) shown++;
+    });
+    countEl.textContent = shown + " product" + (shown === 1 ? "" : "s");
+  }
+  if (search) search.addEventListener("input", filter);
+
+  // Card tilt on mouse move (subtle)
+  if (!reduce) {
+    cards.forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = "translateY(-8px) rotateX(" + (-y * 4).toFixed(2) + "deg) rotateY(" + (x * 5).toFixed(2) + "deg)";
+      });
+      card.addEventListener("mouseleave", () => {
+        card.style.transform = "";
+      });
+    });
+  }
+
+  // Smooth nav highlight
+  const sections = ["products","how","contact"].map((id) => document.getElementById(id)).filter(Boolean);
+  const navLinks = document.querySelectorAll(".nav-links a");
+  if ("IntersectionObserver" in window) {
+    const sio = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          navLinks.forEach((a) => {
+            a.style.color = a.getAttribute("href") === "#" + id ? "var(--text)" : "";
+            a.style.background = a.getAttribute("href") === "#" + id ? "rgba(255,255,255,.06)" : "";
+          });
+        }
+      });
+    }, { threshold: 0.35 });
+    sections.forEach((s) => sio.observe(s));
+  }
+})();
+</script>
 </body>
 </html>
