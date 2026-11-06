@@ -1,0 +1,89 @@
+{
+  "store": "Utopia",
+  "url": "https://tim777z.github.io/utopia/",
+  "currency": "USD",
+  "free_shipping_over": 60,
+  "agent_friendly": true,
+  "products": [
+    {
+      "id": "hi-res-earbuds",
+      "name": "Hi-Res Wireless Earbuds",
+      "price": 79,
+      "bulk": "2 for $147",
+      "image": "img/products/hi-res-earbuds.png",
+      "category": "Audio"
+    },
+    {
+      "id": "hotswap-keyboard",
+      "name": "87% Hot-Swap Mechanical",
+      "price": 99,
+      "bulk": "2 for $189",
+      "image": "img/products/hotswap-keyboard.png",
+      "category": "Keyboards"
+    },
+    {
+      "id": "led-monitor-bar",
+      "name": "Monster LED Monitor Bar",
+      "price": 49,
+      "bulk": "2 for $89",
+      "image": "img/products/led-monitor-bar.png",
+      "category": "Lighting"
+    },
+    {
+      "id": "gan-charger",
+      "name": "120W GaN Charging Brick",
+      "price": 59,
+      "bulk": "2 for $109",
+      "image": "img/products/gan-charger.png",
+      "category": "Charging"
+    },
+    {
+      "id": "smart-plug",
+      "name": "Smart Plug Multi-Pack",
+      "price": 34,
+      "bulk": "3 for $89",
+      "image": "img/products/smart-plug.png",
+      "category": "Smart Home"
+    },
+    {
+      "id": "qi2-phone-stand",
+      "name": "Qi2 Magnetic Phone Stand",
+      "price": 45,
+      "bulk": "2 for $85",
+      "image": "img/products/qi2-phone-stand.png",
+      "category": "Accessories"
+    },
+    {
+      "id": "vertical-mouse",
+      "name": "Vertical Ergonomic Mouse",
+      "price": 44,
+      "bulk": "2 for $83",
+      "image": "img/products/vertical-mouse.png",
+      "category": "Productivity"
+    },
+    {
+      "id": "game-speaker",
+      "name": "Portable Game-Style Speaker",
+      "price": 54,
+      "bulk": "2 for $99",
+      "image": "img/products/game-speaker.png",
+      "category": "Audio"
+    },
+    {
+      "id": "desk-mat",
+      "name": "Desk Mat XL + RGB Strip",
+      "price": 39,
+      "bulk": "2 for $75",
+      "image": "img/products/desk-mat.png",
+      "category": "Accessories"
+    },
+    {
+      "id": "4k-webcam",
+      "name": "4K Webcam with Ring Light",
+      "price": 79,
+      "bulk": "2 for $147",
+      "image": "img/products/4k-webcam.png",
+      "category": "Photography"
+    }
+  ]
+}

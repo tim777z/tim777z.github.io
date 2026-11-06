@@ -1,0 +1,15 @@
+{
+  "store": "Utopia",
+  "model": "sourced-to-order dropship with transparent margin",
+  "integration_status": "planned",
+  "partners": {
+    "marketplaces": ["Amazon SP-API", "eBay Trading API", "Shopify Admin API", "Walmart Marketplace"],
+    "suppliers": ["AliExpress", "1688 (Alibaba)", "CJ Dropshipping", "Printful", "Printify", "Spocket"],
+    "logistics": ["ShipBob", "Flexport", "DHL", "FedEx", "UPS", "USPS", "17TRACK"],
+    "payments": ["PayPal", "Stripe", "Coinbase Commerce"],
+    "automation": ["browser-use MCP", "Playwright", "Puppeteer", "n8n", "Make", "Zapier"]
+  },
+  "tracking": "24/7 order, shipment and inventory tracking via webhooks + polling",
+  "pricing_strategy": "sets and bundles to even out prices and lower per-unit cost on big items",
+  "macro": "Agent-to-agent negotiation enabled; AI agents can request bulk quotes via products.json"
+}
